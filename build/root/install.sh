@@ -149,7 +149,15 @@ if [[ "${ENABLE_SOCKS}" == "yes" ]]; then
 	fi
 fi
 
-export APPLICATION="privoxy"
+export APPLICATION=$(echo "${APPLICATION}" | sed -e 's~^[ \t]*~~;s~[ \t]*$~~')
+if [[ ! -z "${APPLICATION}" ]]; then
+	echo "[info] APPLICATION defined as '${APPLICATION}'" | ts '%Y-%m-%d %H:%M:%.S'
+else
+	echo "[warn] APPLICATION not defined (via -e APPLICATION), defaulting to 'privoxy'" | ts '%Y-%m-%d %H:%M:%.S'
+	export APPLICATION="privoxy"
+fi
+
+
 
 EOF
 
